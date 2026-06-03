@@ -1,6 +1,10 @@
 .env
 /.venv
-/.adk
 .venv
+
+/.adk
 .adk
+
 __pycache__
+/__pycache__
+/travel_concierge/__pycache__
