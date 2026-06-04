@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Demonstration of Travel AI Conceirge using Agent Development Kit"""
+"""Demonstration of Travel AI Concierge using Agent Development Kit"""
 
 import uuid
 
@@ -30,12 +30,25 @@ from travel_concierge.tools.memory import _load_precreated_itinerary
 
 from . import MODEL
 
+from opik.integrations.adk import OpikTracer, track_adk_agent_recursive
+
+# Configure the Opik tracer
+opik_tracer = OpikTracer(
+    name="travel-concierge-root-agent",
+    tags=["travel", "concierge", "multi-agent"],
+    metadata={
+        "environment": "development",
+        "framework": "google-adk",
+        "agent": "travel-concierge",
+    },
+    project_name="demo"
+)
 
 with using_session(session_id=uuid.uuid4()):
     root_agent = Agent(
-        model= MODEL,
+        model=MODEL,
         name="root_agent",
-        description="A Travel Conceirge using the services of multiple sub-agents",
+        description="A Travel Concierge using the services of multiple sub-agents",
         instruction=prompt.ROOT_AGENT_INSTR,
         sub_agents=[
             inspiration_agent,
@@ -45,5 +58,17 @@ with using_session(session_id=uuid.uuid4()):
             in_trip_agent,
             post_trip_agent,
         ],
+        # Keep your existing before_agent_callback
         before_agent_callback=_load_precreated_itinerary,
+        # Manually add the remaining Opik callbacks to avoid
+        # overwriting _load_precreated_itinerary
+        after_agent_callback=opik_tracer.after_agent_callback,
+        before_model_callback=opik_tracer.before_model_callback,
+        after_model_callback=opik_tracer.after_model_callback,
+        before_tool_callback=opik_tracer.before_tool_callback,
+        after_tool_callback=opik_tracer.after_tool_callback,
     )
+
+# Instrument all sub-agents recursively with Opik
+# (root_agent is already partially instrumented above)
+track_adk_agent_recursive(root_agent, opik_tracer)
