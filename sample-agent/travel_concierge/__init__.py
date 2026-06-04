@@ -15,10 +15,14 @@
 import os
 
 import google.auth
+from google.adk.models.lite_llm import LiteLlm
 
+import os
 
-MODEL = os.getenv("GOOGLE_GENAI_MODEL")
-if not MODEL:
-    MODEL = "gemini-2.5-flash"
+MODEL = LiteLlm(
+    model="openai/gpt-5.2",
+    api_key=os.getenv("OPENAI_API_KEY"),
+    api_base="https://openaiqc.gep.com/summerintern/openai/v1",
+)
 
 from . import agent  # noqa: E402

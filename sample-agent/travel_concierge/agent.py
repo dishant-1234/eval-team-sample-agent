@@ -26,18 +26,14 @@ from travel_concierge.sub_agents.inspiration.agent import inspiration_agent
 from travel_concierge.sub_agents.planning.agent import planning_agent
 from travel_concierge.sub_agents.post_trip.agent import post_trip_agent
 from travel_concierge.sub_agents.pre_trip.agent import pre_trip_agent
-from google.adk.models.lite_llm import LiteLlm
 from travel_concierge.tools.memory import _load_precreated_itinerary
 
 from . import MODEL
 
 
-
 with using_session(session_id=uuid.uuid4()):
     root_agent = Agent(
-        model= LiteLlm(
-        model="openai/gpt-5.2",
-    ),
+        model= MODEL,
         name="root_agent",
         description="A Travel Conceirge using the services of multiple sub-agents",
         instruction=prompt.ROOT_AGENT_INSTR,
