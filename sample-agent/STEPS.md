@@ -6,4 +6,6 @@ py -3.12 -m venv .venv
 pip install -U pip
 pip install -e .
 
+populate env variables 
+
 adk web --port=8000
