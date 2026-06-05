@@ -36,14 +36,13 @@ def build_task():
             user_input,
             scenario=scenario,
         )
-
         packed_output = format_output_for_scoring(
             user_input=user_input,
             agent_output=agent_output,
             expected_output=expected_output,
         )
-
         context = dataset_item.get("context")
+        
         return {
             "input": user_input,
             "output": packed_output,
