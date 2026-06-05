@@ -16,6 +16,8 @@ Usage:
 
 from __future__ import annotations
 
+from typing import Optional, Union
+
 from opik.evaluation.metrics import (
     AgentTaskCompletionJudge,
     AnswerRelevance,
@@ -23,25 +25,34 @@ from opik.evaluation.metrics import (
     Hallucination,
 )
 from opik.evaluation.metrics.base_metric import BaseMetric
+from opik.evaluation.models import LiteLLMChatModel
+from opik.evaluation.models.base_model import OpikBaseModel
+
+JudgeModel = Union[str, OpikBaseModel, LiteLLMChatModel, None]
 
 
-def build_builtin_metrics() -> list[BaseMetric]:
+def build_builtin_metrics(*, judge_model: JudgeModel = None) -> list[BaseMetric]:
     """Built-in LLM-as-judge metrics from the Opik SDK."""
     return [
         AnswerRelevance(
             name="answer_relevance",
+            model=judge_model,
             require_context=False,
         ),
-        AgentTaskCompletionJudge(name="agent_task_completion"),
-        Hallucination(name="hallucination"),
+        AgentTaskCompletionJudge(model=judge_model),
+        Hallucination(
+            name="hallucination",
+            model=judge_model,
+        ),
     ]
 
 
-def build_custom_metrics() -> list[BaseMetric]:
+def build_custom_metrics(*, judge_model: JudgeModel = None) -> list[BaseMetric]:
     """Project-specific G-Eval metric using expected_output from the dataset."""
     return [
         GEval(
             name="expected_behavior_match",
+            model=judge_model,
             task_introduction=(
                 "You are evaluating a travel concierge agent. "
                 "The text to score includes the user input, the agent response, "
@@ -57,11 +68,15 @@ def build_custom_metrics() -> list[BaseMetric]:
     ]
 
 
-def build_metrics(*, include_custom: bool = True) -> list[BaseMetric]:
+def build_metrics(
+    *,
+    include_custom: bool = True,
+    judge_model: JudgeModel = None,
+) -> list[BaseMetric]:
     """Return all metrics to attach to a dataset experiment."""
-    metrics = build_builtin_metrics()
+    metrics = build_builtin_metrics(judge_model=judge_model)
     if include_custom:
-        metrics.extend(build_custom_metrics())
+        metrics.extend(build_custom_metrics(judge_model=judge_model))
     return metrics
 
 
