@@ -1,0 +1,77 @@
+{
+  "name": "langfuse_eval_2_travel_concierge_dataset",
+  "description": "Dataset for the standalone langfuse_eval_2.py travel concierge harness.",
+  "cases": [
+    {
+      "name": "inspiration_beach_asia",
+      "input": "Inspire me about relaxing beach destinations in Asia for a 5 day trip",
+      "expected_agent": "inspiration_agent",
+      "expected_tools": ["transfer_to_agent", "place_agent"],
+      "expected_keywords": ["Bali", "Phuket", "Maldives"]
+    },
+    {
+      "name": "inspiration_activities_peru",
+      "input": "What activities can I do in Peru if I like culture and nature?",
+      "expected_agent": "inspiration_agent",
+      "expected_tools": ["transfer_to_agent", "poi_agent"],
+      "expected_keywords": ["activity", "local", "landmark"]
+    },
+    {
+      "name": "planning_london_itinerary",
+      "input": "Plan a 3 day London itinerary with flights and a hotel",
+      "expected_agent": "planning_agent",
+      "expected_tools": [
+        "transfer_to_agent",
+        "flight_search_agent",
+        "hotel_search_agent",
+        "itinerary_agent"
+      ],
+      "expected_keywords": ["flight", "hotel", "Day"]
+    },
+    {
+      "name": "booking_payment",
+      "input": "Book it and show me the payment options before processing",
+      "expected_agent": "booking_agent",
+      "expected_tools": [
+        "transfer_to_agent",
+        "create_reservation",
+        "payment_choice",
+        "process_payment"
+      ],
+      "expected_keywords": ["payment", "reservation", "mock"]
+    },
+    {
+      "name": "pretrip_pack_visa",
+      "input": "Give me a pre-trip update: visa, advisory, and what to pack",
+      "expected_agent": "pre_trip_agent",
+      "expected_tools": [
+        "transfer_to_agent",
+        "google_search_grounding",
+        "what_to_pack_agent"
+      ],
+      "expected_keywords": ["visa", "pack", "official"]
+    },
+    {
+      "name": "intrip_monitor",
+      "input": "Monitor my flight and help me during the trip if there is a delay",
+      "expected_agent": "in_trip_agent",
+      "expected_tools": [
+        "transfer_to_agent",
+        "trip_monitor_agent",
+        "day_of_agent"
+      ],
+      "expected_keywords": ["monitor", "delay", "buffer"]
+    },
+    {
+      "name": "posttrip_feedback",
+      "input": "Collect my post trip feedback and remember that I prefer quiet hotels",
+      "expected_agent": "post_trip_agent",
+      "expected_tools": [
+        "transfer_to_agent",
+        "post_trip_agent",
+        "memorize"
+      ],
+      "expected_keywords": ["feedback", "remember", "preference"]
+    }
+  ]
+}

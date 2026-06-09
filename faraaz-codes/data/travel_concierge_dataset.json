@@ -1,0 +1,110 @@
+[
+  {
+    "input": "Need some destination ideas for the Americas",
+    "expected_output": "Transfers to inspiration_agent and suggests destinations in the Americas with names, countries, and brief highlights.",
+    "phase": "pre_booking",
+    "expected_sub_agent": "inspiration_agent",
+    "scenario": "empty_itinerary",
+    "tags": "inspiration,pre_booking",
+    "demo_purpose": "Dataset UX: inspiration flow + structured destination output"
+  },
+  {
+    "input": "Suggest some activities around Baa Atoll in the Maldives",
+    "expected_output": "Transfers to inspiration_agent and suggests points of interest or activities for Baa Atoll.",
+    "phase": "pre_booking",
+    "expected_sub_agent": "inspiration_agent",
+    "scenario": "empty_itinerary",
+    "tags": "inspiration,poi",
+    "demo_purpose": "Dataset UX: POI suggestions via poi_agent"
+  },
+  {
+    "input": "Go ahead to planning for a 5-day trip to London departing JFK on April 20",
+    "expected_output": "Transfers to planning_agent and begins flight and hotel planning for London.",
+    "phase": "pre_booking",
+    "expected_sub_agent": "planning_agent",
+    "scenario": "empty_itinerary",
+    "tags": "planning,pre_booking",
+    "demo_purpose": "Dataset UX: planning handoff after inspiration"
+  },
+  {
+    "input": "Find flights to London from JFK on April 20 for 4 days. Pick any flights and seats, any hotel and room. Go ahead without my input until everything is selected, then confirm before generating the itinerary.",
+    "expected_output": "Planning_agent selects flights, seats, hotel, and room, then prepares to build an itinerary without unnecessary back-and-forth.",
+    "phase": "pre_booking",
+    "expected_sub_agent": "planning_agent",
+    "scenario": "empty_itinerary",
+    "tags": "planning,autonomous",
+    "demo_purpose": "Dataset UX: multi-tool agent trajectory (flight/hotel/itinerary)"
+  },
+  {
+    "input": "I have an itinerary ready. Please process the bookings and handle payment.",
+    "expected_output": "Transfers to booking_agent and walks through reservation confirmation and payment choices.",
+    "phase": "pre_booking",
+    "expected_sub_agent": "booking_agent",
+    "scenario": "with_itinerary",
+    "tags": "booking,payment",
+    "demo_purpose": "Dataset UX: booking sub-agent and payment flow"
+  },
+  {
+    "input": "What visa and medical requirements should I know before my Seattle trip?",
+    "expected_output": "Transfers to pre_trip_agent and provides visa or medical guidance using search grounding or packing tools as needed.",
+    "phase": "pre_trip",
+    "expected_sub_agent": "pre_trip_agent",
+    "scenario": "seattle_itinerary",
+    "tags": "pretrip,search_grounding",
+    "demo_purpose": "Dataset UX: pre-trip agent with google_search_grounding"
+  },
+  {
+    "input": "What should I pack for my trip from San Diego to Seattle in mid-June?",
+    "expected_output": "Transfers to pre_trip_agent and returns a packing list suited to origin, destination, and season.",
+    "phase": "pre_trip",
+    "expected_sub_agent": "pre_trip_agent",
+    "scenario": "seattle_itinerary",
+    "tags": "pretrip,packing",
+    "demo_purpose": "Dataset UX: what_to_pack_agent structured output"
+  },
+  {
+    "input": "I am at the hotel now. What is my next event today and how do I get there?",
+    "expected_output": "Transfers to in_trip_agent and provides day-of transit or itinerary guidance for the next event.",
+    "phase": "in_trip",
+    "expected_sub_agent": "in_trip_agent",
+    "scenario": "seattle_itinerary",
+    "tags": "intrip,day_of",
+    "demo_purpose": "Dataset UX: day_of_agent dynamic instructions from itinerary state"
+  },
+  {
+    "input": "Check if any of my bookings or activities have changed for today.",
+    "expected_output": "Transfers to in_trip_agent and uses trip monitoring tools to check flights, events, or weather impacts.",
+    "phase": "in_trip",
+    "expected_sub_agent": "in_trip_agent",
+    "scenario": "seattle_itinerary",
+    "tags": "intrip,monitoring",
+    "demo_purpose": "Dataset UX: trip_monitor_agent tool calls"
+  },
+  {
+    "input": "My trip is over. I loved the food in Seattle but disliked long layovers. Remember that for next time.",
+    "expected_output": "Transfers to post_trip_agent, asks follow-up if needed, and stores preferences via memorize.",
+    "phase": "post_trip",
+    "expected_sub_agent": "post_trip_agent",
+    "scenario": "seattle_itinerary",
+    "tags": "posttrip,memory",
+    "demo_purpose": "Dataset UX: post-trip feedback and session memory"
+  },
+  {
+    "input": "Book me a flight to Mars next Tuesday for $5.",
+    "expected_output": "Politely clarifies limitations, does not fabricate a confirmed booking, and offers realistic travel planning help.",
+    "phase": "edge_case",
+    "expected_sub_agent": "root_agent",
+    "scenario": "empty_itinerary",
+    "tags": "edge_case,hallucination",
+    "demo_purpose": "Dataset UX: failure case for low metric scores and trace drill-down"
+  },
+  {
+    "input": "Inspire me about Maldives, then help me plan a 7-day trip there in May.",
+    "expected_output": "First handles inspiration, then transitions to planning when the user asks to plan the trip.",
+    "phase": "pre_booking",
+    "expected_sub_agent": "inspiration_agent",
+    "scenario": "empty_itinerary",
+    "tags": "multiturn,inspiration,planning",
+    "demo_purpose": "Dataset UX: multi-turn thread evaluation (run as separate thread turns in Opik)"
+  }
+]

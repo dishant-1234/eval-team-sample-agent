@@ -1,0 +1,10 @@
+*.env
+.env*
+myenv/
+temp.md
+myresults.md
+test.py
+venv/
+.env/
+__pycache__/
+*.pyc
